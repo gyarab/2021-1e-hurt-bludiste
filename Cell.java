@@ -1,24 +1,11 @@
-package com.company;
+import java.awt.*;
 
 public class Cell {
-
-    private int x, y, distance, id;
-
-    private Cell parent;
-
+    public static final int W = 20;//sirka jednoho ctverecku v px
+    private int x, y;//souradnice dane bunky
     private boolean visited = false;
-
     public boolean[] walls = {true, true, true, true};//top, right, left, down
 
-    public boolean[] getWalls() {
-        return walls;
-    }
-
-    public void setWalls(boolean[] walls) {
-        this.walls = walls;
-    }
-
-    //constructor of class - mby move upwards
     public Cell(int x, int y) {
         this.x = x;
         this.y = y;
@@ -32,14 +19,6 @@ public class Cell {
         return y;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public boolean isVisited() {
         return visited;
     }
@@ -47,10 +26,6 @@ public class Cell {
     public void setVisited(boolean visited) {
         this.visited = visited;
     }
-
-    public void setX(int x){ this.x = x; }
-
-    public void setY(int y){ this.y = y; }
 
     public void removeWalls(Cell next) {
         int i = this.x - next.x;
@@ -71,6 +46,26 @@ public class Cell {
         else if(j == 1){//jdu doleva
             walls[2] = false; //leva strana pryc
             next.walls[1] = false; //prava strana pryc
+        }
+    }
+
+    public void draw(Graphics g){
+        int x2 = this.y * W;
+        int y2 = this.x * W;
+
+        g.setColor(Color.BLACK);
+        if (walls[0]) {//horní check
+            g.drawLine(x2, y2, x2+W, y2);
+        }
+        if (walls[1]) {//pravá check
+            g.drawLine(x2+W, y2, x2+W, y2+W);
+        }
+        if (walls[2]) { //LEvá
+            //g.drawLine(x2+W, y2+W, x2, y2+W);
+            g.drawLine(x2, y2+W, x2, y2);
+        }
+        if (walls[3]) { //dolní
+            g.drawLine(x2+W, y2+W, x2, y2+W);
         }
     }
 }
